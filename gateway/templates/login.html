@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename = 'jquery-3.2.1.min.js') }}"></script>
+</head>
+
+<body>
+    <div style="width:1200px;padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="">Home</a></li>
+                    <li role="presentation" class="active"><a href="">Sign In</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Multi Tenant</h3>
+        </div>
+
+        <div class="jumbotron">
+            <form class="form-signin" method="post">
+                <label for="userName" class="sr-only">Username</label>
+                <input type="name" name="userName" id="userName" class="form-control" placeholder="Username" required autofocus>
+                <label for="userPassword" class="sr-only">Password</label>
+                <input type="password" name="userPassword" id="userPassword" class="form-control" placeholder="Password" required>
+
+                <button id="btnLogin" class="btn btn-lg btn-primary btn-block" type="button">Login</button>
+            </form>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Azhad 2017</p>
+        </footer>
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(document.body).on('click', '#btnLogin', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url_for('post_login')}}",
+                    contentType: 'application/json;charset=UTF-8',
+                    data: JSON.stringify({
+                        "userName": $("#userName").val(),
+                        "password": $("#userPassword").val()
+                    }, null, '\t'),
+                    dataType: "json",
+                    success: function(data) {
+                        if (data["error"]) {
+                            console.log(data["error"]);
+                        } else {
+                            window.location.replace(data["redirect"]);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

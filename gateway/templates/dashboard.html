@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename = 'jquery-3.2.1.min.js') }}"></script>
+</head>
+
+<body>
+    <div style="width:1200px;padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="">Home</a></li>
+                    <li role="presentation"><a href="">Log out</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Multi Tenant</h3>
+        </div>
+
+        <div class="jumbotron">
+            <a href="/tenant1">Tenant1</a> <br> <br>
+            <a href="/tenant1">Tenant2</a> <br> <br>
+            <a href="/tenant1">Tenant3</a> <br> <br>
+            <a href="/tenant1">Tenant3</a> <br> <br>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Azhad 2017</p>
+        </footer>
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            var host = location.protocol + '//' + location.host;
+            $(document.body).on('click', '#searchSubmit', function() {
+                $.get(host + "/getSearch/" + $("#txtSearch").val())
+                    .done(function(data) {
+                        var json = $.parseJSON(data);
+                        $("#imgOutput").prop("src", host + json["path"]);
+                    })
+                    .fail(function() {
+                        alert("error");
+                    })
+                    .always(function() {});
+            });
+        });
+    </script>
+</body>
+
+</html>
