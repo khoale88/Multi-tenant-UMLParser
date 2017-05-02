@@ -2,11 +2,12 @@ import os
 from flask import Flask, json, Response, request,render_template, url_for, redirect
 
 app = Flask(__name__)
-
-app.config["CLASS_JAR"] = "./parser/parser.jar"
-app.config["UPLOAD_FOLDER"] = "./uploads/"
-app.config["UNZIP_FOLDER"] = "./unzips/"
-app.config["OUTPUT_FOLDER"] = "./static/"
+app.config["APP_HOST"] = "localhost"
+app.config["APP_PORT"] = 5000
+# app.config["CLASS_JAR"] = "./parser/parser.jar"
+# app.config["UPLOAD_FOLDER"] = "./uploads/"
+# app.config["UNZIP_FOLDER"] = "./unzips/"
+# app.config["OUTPUT_FOLDER"] = "./static/"
 
 
 @app.route("/",methods=['GET'])

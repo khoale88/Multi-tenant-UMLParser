@@ -1,6 +1,6 @@
 import subprocess
 import zipfile
-import os
+import os, shutil
 
 def process(jar_path, save_path, zip_name, output_path):
     """upzip and parse function will unzip a compressed file, and use provided UML parser
@@ -10,6 +10,7 @@ def process(jar_path, save_path, zip_name, output_path):
     save_path = os.path.abspath(save_path)
     output_path = os.path.abspath(output_path)
 
+    shutil.rmtree(os.path.join(save_path, "output"))
     #unzip and parse the file.
     unzip_path = unzip_to_output_folder(save_path, zip_name)
     parse_uml(jar_path, unzip_path)
@@ -25,7 +26,7 @@ def parse_uml(jar_path, input_path):
     """parse_uml needs 2 inputs: a path to parser file,
     an input_path to folder where java classes reside,
     result is stored in the same folder as input_path"""
-
+    #print input_path
     subprocess.call(["java", "-jar", jar_path, input_path, input_path + "/"])
 
 def unzip_to_output_folder(zip_path, zip_name):

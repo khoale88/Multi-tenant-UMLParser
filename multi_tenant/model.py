@@ -1,5 +1,6 @@
-from flask import Flask,json
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import ast
 
 app = Flask(__name__)
 
@@ -17,7 +18,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
-class TENANT_TABLE(db.Model):
+class AS_DICT():
+    def as_dict(self):
+        return ast.literal_eval(str(self))
+
+
+class TENANT_TABLE(db.Model, AS_DICT):
     __tablename__ = "TENANT_TABLE"
     __table_args__ = (
         db.PrimaryKeyConstraint('tenant_id', 'table_name'),
@@ -38,23 +44,23 @@ class TENANT_TABLE(db.Model):
         return str({"tenant_id" :self.tenant_id,
                     "table_name":self.table_name,
                     "table_desc":self.table_desc})
-    def asdict(self):
-        result = {"tenant_id" :self.tenant_id,
-                  "table_name":self.table_name,
-                  "table_desc":self.table_desc}
 
 
-class TENANT_FIELDS(db.Model):
+class TENANT_FIELDS(db.Model, AS_DICT):
     __tablename__ = "TENANT_FIELDS"
     __table_args__ = (
         db.PrimaryKeyConstraint('index', 'tenant_id', 'table_name'),
     )
     index = db.Column(db.Integer, nullable=False)
-    tenant_id = db.Column(db.String(10), db.ForeignKey("TENANT_TABLE.tenant_id"), nullable=False)
-    table_name = db.Column(db.String(45), db.ForeignKey("TENANT_TABLE.tenant_table"), nullable=False)
-    field_name = db.Column(db.String(45), unique=True, nullable=False)
+    tenant_id = db.Column(db.String(10), db.ForeignKey("TENANT_TABLE.tenant_id"),
+                          nullable=False)
+    table_name = db.Column(db.String(45), db.ForeignKey("TENANT_TABLE.tenant_table"),
+                           nullable=False)
+    field_name = db.Column(db.String(45),
+                           unique=True, nullable=False)
     field_type = db.Column(db.String(80))
-    field_column = db.Column(db.Integer, nullable=False)
+    field_column = db.Column(db.Integer,
+                             nullable=False)
 
     def __init__(self, tenant_id, table_name, field_name, field_type, field_column):
         self.tenant_id = tenant_id
@@ -80,14 +86,17 @@ class TENANT_FIELDS(db.Model):
                     "field_column": self.field_column})
 
 
-class TENANT_DATA(db.Model):
+class TENANT_DATA(db.Model, AS_DICT):
     __tablename__ = "TENANT_DATA"
     __table_args__ = (
-        db.PrimaryKeyConstraint('record_id', 'tenant_id',),
+        db.PrimaryKeyConstraint('record_id', 'tenant_id'),
     )
-    record_id = db.Column(db.String(45), nullable=False)
-    tenant_id = db.Column(db.String(10), db.ForeignKey("TENANT_TABLE.tenant_id"), nullable=False)
-    tenant_table = db.Column(db.String(45), db.ForeignKey("TENANT_TABLE.tenant_table"), nullable=False)
+    record_id = db.Column(db.String(45), 
+                          nullable=False)
+    tenant_id = db.Column(db.String(10), db.ForeignKey("TENANT_TABLE.tenant_id"),
+                          nullable=False)
+    tenant_table = db.Column(db.String(45), db.ForeignKey("TENANT_TABLE.tenant_table"),
+                             nullable=False)
     column_1 = db.Column(db.String(80))
     column_2 = db.Column(db.String(80))
     column_3 = db.Column(db.String(80))
