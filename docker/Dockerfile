@@ -7,3 +7,5 @@ MAINTAINER khoale88 "lenguyenkhoa1988@gmail.com"
 RUN apt-get update
 RUN apt-get install graphviz plotutils imagemagick -y
 RUN pip install flask flask-sqlalchemy pymysql
+
+ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_111

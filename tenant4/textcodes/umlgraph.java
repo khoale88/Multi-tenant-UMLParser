@@ -1,25 +1,17 @@
+
 /**
- * Attribute and operation visility
- * UML User Guide p. 123
+ * Associations with visibility
+ * UML User Guide p. 145
  *
- * @opt operations
- * @opt attributes
- * @opt types
- * @opt visibility
+ * @opt horizontal
  * @hidden
  */
 class UMLOptions {}
 
-/** @hidden */
-class Tool {}
+/** @assoc * - "*\n\n+user " User */
+class UserGroup {}
 
-class Toolbar {
-        protected Tool currentSelection;
-        protected Integer toolCount;
-        public void pickItem(Integer i) {}
-        public void addTool(Tool t) {}
-        public void removeTool(Integer i) {}
-        public Tool getTool() {}
-        protected void checkOrphans() {}
-        private void compact() {}
-}
+/** @navassoc "1\n\n+owner\r" - "*\n\n+key" Password */
+class User{}
+
+class Password{}

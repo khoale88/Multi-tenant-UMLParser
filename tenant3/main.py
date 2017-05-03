@@ -21,7 +21,7 @@ def upload_text():
 
     return Response(response=json.dumps(res_json), status=200)
 
-@app.route("/",methods=['GET'])
+@app.route("/tenant3",methods=['GET'])
 def index():
     return render_template("index.html")
 

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Tenant1</title>
+    <title>Tenant2</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/login.css" rel="stylesheet">
@@ -30,7 +30,7 @@
         </div>
 
         <div class="jumbotron" id="divImage" style="display:none;">
-            <img id="imgDiagram"/>
+            <img id="imgDiagram" />
         </div>
 
         <div class="jumbotron">
@@ -46,16 +46,16 @@
             <br>
             <button id="btnSubmit1" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         </div>
-        
+
         <footer class="footer">
-            <p>&copy; Azhad 2017</p>
+            <p>&copy; Khoa 2017</p>
         </footer>
 
     </div>
     <script>
         $(document).ready(function() {
             $(document.body).on('click', '#btnSubmit', function() {
-              var formData = new FormData($('form')[0]);
+                var formData = new FormData($('form')[0]);
                 $.ajax({
                     type: 'POST',
                     url: "{{url_for('upload_zip')}}",
@@ -65,13 +65,13 @@
                     dataType: "json",
                     success: function(data) {
                         if (data["link"]) {
-                          console.log(data["link"])
-                          d = new Date();
-                          $("#imgDiagram").prop("src",data["link"]+"?"+d.getTime())
-                          $("#divImage").show();
+                            console.log(data["link"])
+                            d = new Date();
+                            $("#imgDiagram").prop("src", data["link"] + "?" + d.getTime())
+                            $("#divImage").show();
                         } else {
-                          $("#divImage").hide();
-                          // window.location.replace(data["redirect"]);
+                            $("#divImage").hide();
+                            // window.location.replace(data["redirect"]);
                         }
                     }
                 });

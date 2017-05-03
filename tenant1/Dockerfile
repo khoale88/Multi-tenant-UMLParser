@@ -6,4 +6,6 @@ MAINTAINER khoale88 "lenguyenkhoa1988@gmail.com"
 COPY . /app
 WORKDIR /app
 
+RUN pip install mysql-connector-python-rf
+
 CMD python main.py
